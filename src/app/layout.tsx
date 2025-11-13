@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+// import ThemeToggle from '@/components/ui/ThemeToggle'; // Removed ThemeToggle import
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +24,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-[color:var(--background)] text-[color:var(--foreground)]">
+      <head>
+        <script>
+          {
+            `
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              document.documentElement.classList.add('dark')
+            } else {
+              document.documentElement.classList.remove('dark')
+            }
+            `
+          }
+        </script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <ThemeToggle /> */} {/* Removed ThemeToggle component */}
         {children}
       </body>
     </html>

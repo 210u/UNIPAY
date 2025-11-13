@@ -1,8 +1,113 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f8f8; /* Very light grey for main background */
+  --foreground: #1a1a1a; /* Dark text for general use */
+
+  --color-sidebar-bg: #ffffff; /* White sidebar background */
+  --color-sidebar-border: #f0f0f0; /* Light border for sidebar */
+  --color-sidebar-item-active-bg: #f0f0f0; /* Light grey for active sidebar item */
+  --color-sidebar-item-hover-bg: #f0f0f0; /* Light grey for hover sidebar item */
+  --color-sidebar-item-text: #666666; /* Grey text for sidebar items */
+  --color-sidebar-item-active-text: #1a1a1a; /* Dark text for active sidebar item */
+
+  --color-header-bg: #ffffff; /* White header background */
+  --color-header-border: #f0f0f0; /* Light border for header */
+
+  --color-card-bg: #ffffff; /* White card background */
+  --color-card-border: #e0e0e0; /* Light grey border for cards */
+  --color-card-shadow: rgba(0, 0, 0, 0.05); /* Subtle shadow for cards */
+
+  --color-text-primary: #1a1a1a; /* Primary text color (dark) */
+  --color-text-secondary: #666666; /* Secondary text color (medium grey) */
+  --color-text-subtle: #999999; /* Subtle text color (light grey) */
+  --color-text-accent: #007bff; /* Blue accent for links/active states */
+
+  --color-input-bg: #f9f9f9; /* Light grey for input backgrounds */
+  --color-input-border: #e0e0e0; /* Light grey border for inputs */
+  --color-input-placeholder: #999999; /* Placeholder text color */
+  --color-input-focus-border: #007bff; /* Blue focus border */
+  --color-input-focus-ring: rgba(0, 123, 255, 0.2); /* Blue focus ring */
+
+  --color-button-primary-bg: #1a1a1a; /* Black button background */
+  --color-button-primary-text: #ffffff; /* White button text */
+  --color-button-secondary-bg: #f0f0f0; /* Light grey secondary button */
+  --color-button-secondary-text: #1a1a1a; /* Dark text for secondary button */
+  --color-button-outline-border: #cccccc; /* Light grey outline button border */
+  --color-button-outline-text: #4d4d4d; /* Dark grey outline button text */
+
+  /* Badge colors */
+  --color-badge-feature-bg: #d4edda; /* Light green */
+  --color-badge-feature-text: #155724; /* Dark green */
+  --color-badge-bug-bg: #f8d7da; /* Light red */
+  --color-badge-bug-text: #721c24; /* Dark red */
+  --color-badge-review-bg: #fff3cd; /* Light yellow */
+  --color-badge-review-text: #856404; /* Dark yellow */
+  --color-badge-testing-bg: #cce5ff; /* Light blue */
+  --color-badge-testing-text: #004085; /* Dark blue */
+
+  /* Priority colors */
+  --color-priority-high-bg: #f8d7da; /* Light red */
+  --color-priority-high-text: #721c24; /* Dark red */
+  --color-priority-medium-bg: #fff3cd; /* Light yellow */
+  --color-priority-medium-text: #856404; /* Dark yellow */
+  --color-priority-low-bg: #d4edda; /* Light green */
+  --color-priority-low-text: #155724; /* Dark green */
+}
+
+.dark {
+  --background: #1a1a1a; /* Dark mode background: Dark grey */
+  --foreground: #e0e0e0; /* Light grey for general text */
+
+  --color-sidebar-bg: #2a2a2a; /* Darker grey sidebar background */
+  --color-sidebar-border: #333333; /* Dark border for sidebar */
+  --color-sidebar-item-active-bg: #333333; /* Darker grey for active sidebar item */
+  --color-sidebar-item-hover-bg: #333333; /* Darker grey for hover sidebar item */
+  --color-sidebar-item-text: #a3a3a3; /* Light grey text for sidebar items */
+  --color-sidebar-item-active-text: #ffffff; /* White text for active sidebar item */
+
+  --color-header-bg: #1a1a1a; /* Dark header background */
+  --color-header-border: #333333; /* Dark border for header */
+
+  --color-card-bg: #2a2a2a; /* Dark grey card background */
+  --color-card-border: #4a4a4a; /* Dark grey border for cards */
+  --color-card-shadow: rgba(0, 0, 0, 0.2); /* Subtle shadow for cards */
+
+  --color-text-primary: #e0e0e0; /* Primary text color (light) */
+  --color-text-secondary: #a3a3a3; /* Secondary text color (medium light grey) */
+  --color-text-subtle: #666666; /* Subtle text color (darker grey) */
+  --color-text-accent: #818cf8; /* Light purple accent for links/active states */
+
+  --color-input-bg: #333333; /* Dark grey for input backgrounds */
+  --color-input-border: #4a4a4a; /* Dark grey border for inputs */
+  --color-input-placeholder: #666666; /* Placeholder text color */
+  --color-input-focus-border: #818cf8; /* Light purple focus border */
+  --color-input-focus-ring: rgba(129, 140, 248, 0.2); /* Light purple focus ring */
+
+  --color-button-primary-bg: #ffffff; /* White button background */
+  --color-button-primary-text: #000000; /* Black button text */
+  --color-button-secondary-bg: #4a4a4a; /* Dark grey secondary button */
+  --color-button-secondary-text: #ffffff; /* White text for secondary button */
+  --color-button-outline-border: #666666; /* Medium grey outline button border */
+  --color-button-outline-text: #e0e0e0; /* Light grey outline button text */
+
+  /* Badge colors */
+  --color-badge-feature-bg: #155724; /* Dark green */
+  --color-badge-feature-text: #d4edda; /* Light green */
+  --color-badge-bug-bg: #721c24; /* Dark red */
+  --color-badge-bug-text: #f8d7da; /* Light red */
+  --color-badge-review-bg: #856404; /* Dark yellow */
+  --color-badge-review-text: #fff3cd; /* Light yellow */
+  --color-badge-testing-bg: #004085; /* Dark blue */
+  --color-badge-testing-text: #cce5ff; /* Light blue */
+
+  /* Priority colors */
+  --color-priority-high-bg: #721c24; /* Dark red */
+  --color-priority-high-text: #f8d7da; /* Light red */
+  --color-priority-medium-bg: #856404; /* Dark yellow */
+  --color-priority-medium-text: #fff3cd; /* Light yellow */
+  --color-priority-low-bg: #155724; /* Dark green */
+  --color-priority-low-text: #d4edda; /* Light green */
 }
 
 @theme inline {
@@ -10,13 +115,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

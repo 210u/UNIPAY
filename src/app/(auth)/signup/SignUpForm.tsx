@@ -15,11 +15,9 @@ import Link from 'next/link';
 const signUpSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  username: z.string().min(3, 'Username must be at least 3 characters').regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
   email: z.string().email('Please enter a valid email address'),
-  phoneNumber: z.string().min(9, 'Phone number must be at least 9 digits'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Please confirm your password'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string().min(8, 'Please confirm your password'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ['confirmPassword'],
@@ -148,28 +146,28 @@ export default function SignUpForm() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="mt-8 bg-white rounded-lg shadow-lg p-8 text-center"
+        className="mt-8 bg-[color:var(--color-card-background)] rounded-lg shadow-xl p-8 text-center border border-[color:var(--color-border)]"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring' }}
         >
-          <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
+          <CheckCircle className="mx-auto h-16 w-16 text-[color:var(--color-text-accent)] mb-4" />
         </motion.div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Unipay! 🎉</h3>
-        <p className="text-gray-600 mb-4">
+        <h3 className="text-2xl font-bold text-[color:var(--color-text-primary)] mb-2">Welcome to Unipay! 🎉</h3>
+        <p className="text-[color:var(--color-text-secondary)] mb-4">
           Thank you for creating your account, <span className="font-semibold">{userEmail}</span>!
         </p>
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <Mail className="mx-auto h-8 w-8 text-blue-600 mb-2" />
-          <p className="text-sm text-gray-700">
+        <div className="bg-[color:var(--color-card-background)] border border-[color:var(--color-border)] rounded-lg p-4 mb-6">
+          <Mail className="mx-auto h-8 w-8 text-[color:var(--color-text-accent)] mb-2" />
+          <p className="text-sm text-[color:var(--color-text-primary)]">
             <strong>Please check your email to confirm your account.</strong>
             <br />
             We've sent a confirmation link to verify your email address.
           </p>
         </div>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-[color:var(--color-text-secondary)] mb-6">
           After confirming your email, you'll be able to sign in and access all features.
         </p>
         <Link href="/signin">
@@ -184,100 +182,64 @@ export default function SignUpForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      className="w-full text-[color:var(--color-text-primary)]"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
-        <div className="rounded-md shadow-sm space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
               <Input
                 {...register('firstName')}
                 type="text"
-                placeholder="First name"
+                placeholder="eg. John"
                 className="pl-10"
                 error={errors.firstName?.message}
               />
             </div>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
               <Input
                 {...register('lastName')}
                 type="text"
-                placeholder="Last name"
+                placeholder="eg. Francisco"
                 className="pl-10"
                 error={errors.lastName?.message}
               />
             </div>
           </div>
 
-          <div className="relative">
-            <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              {...register('username')}
-              type="text"
-              placeholder="Username"
-              className="pl-10"
-              error={errors.username?.message}
-            />
-          </div>
+          {/* Removed Username and Phone Number as per new design */}
 
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
             <Input
               {...register('email')}
               type="email"
-              placeholder="Email address"
+              placeholder="eg. johnfrans@gmail.com"
               className="pl-10"
               error={errors.email?.message}
             />
           </div>
 
           <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              {...register('phoneNumber')}
-              type="tel"
-              placeholder="Phone number"
-              className="pl-10"
-              error={errors.phoneNumber?.message}
-            />
-          </div>
-
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
             <Input
               {...register('password')}
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password (min 6 characters)"
+              placeholder="Enter your password"
               className="pl-10 pr-10"
               error={errors.password?.message}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]"
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
-
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              {...register('confirmPassword')}
-              type={showConfirmPassword ? 'text' : 'password'}
-              placeholder="Confirm password"
-              className="pl-10 pr-10"
-              error={errors.confirmPassword?.message}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-            </button>
-          </div>
+          <p className="text-xs text-[color:var(--color-text-secondary)] mt-1 ml-3">Must be at least 8 characters.</p>
         </div>
 
         {errors.root && (
@@ -290,26 +252,26 @@ export default function SignUpForm() {
           </motion.p>
         )}
 
-        <div>
+        <div className="pt-4">
           <Button
             type="submit"
             className="w-full"
             size="lg"
             isLoading={isLoading}
           >
-            Create account
+            Sign Up
           </Button>
         </div>
 
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
+        <div className="text-center text-sm mt-6">
+          <p className="text-[color:var(--color-text-secondary)]">
             Already have an account?{' '}
             <Link
               href="/signin"
-              className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+              className="font-medium text-[color:var(--color-text-primary)] hover:underline"
               prefetch={true}
             >
-              Sign in
+              Log in
             </Link>
           </p>
         </div>
