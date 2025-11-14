@@ -61,6 +61,50 @@ export type Database = {
           },
         ]
       }
+      user_profiles: {
+        Row: {
+          id: string
+          email: string | null
+          first_name: string | null
+          last_name: string | null
+          phone_number: string | null
+          role: string | null
+          university_id: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
+          phone_number?: string | null
+          role?: string | null
+          university_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
+          phone_number?: string | null
+          role?: string | null
+          university_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       // ... (truncated for brevity - full types available)
     }
     Views: {

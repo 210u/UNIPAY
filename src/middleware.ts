@@ -71,7 +71,13 @@ export async function middleware(req: NextRequest) {
   const isAdmin = profile?.role && ['university_admin', 'system_admin', 'hr_staff', 'payroll_officer', 'department_head'].includes(profile.role);
 
   // If user is signed in and trying to access auth pages, redirect based on role
+  // ONLY if not specifically trying to access /auth/signin or /auth/signup
   if (user && ['/signin', '/signup', '/forgot-password'].includes(req.nextUrl.pathname)) {
+    if (req.nextUrl.pathname === '/signup' || req.nextUrl.pathname === '/signin') {
+      console.log('MIDDLEWARE: User is logged in but trying to access signin/signup. Allowing access.');
+      return res;
+    }
+
     console.log('MIDDLEWARE: Has user on auth page, checking role...');
     
     // Redirect admins to admin dashboard, others to employee dashboard

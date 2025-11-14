@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 // Animation variants
 const containerVariants = {
@@ -23,7 +24,7 @@ const itemVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 15
     }
@@ -46,7 +47,7 @@ export default function AuthLayout({
     >
       {/* Main content area: illustration on left, form on right */}
       <motion.div
-        className="flex w-full max-w-4xl h-[500px] bg-white dark:bg-gray-700 rounded-3xl shadow-xl overflow-hidden"
+        className="flex w-full max-w-4xl h-[550px] bg-white dark:bg-gray-700 rounded-3xl shadow-xl overflow-hidden"
         variants={itemVariants}
       >
         {/* Left section for illustration */}
@@ -73,7 +74,11 @@ export default function AuthLayout({
             ))}
           </div>
           <div className="absolute bottom-8 text-white text-sm">
-            Don't have an account? <span className="underline">Sign up</span>
+            {pathname === '/signup' ? (
+              <>Already have an account? <Link href="/signin" className="underline">Login</Link></>
+            ) : (
+              <>Don't have an account? <Link href="/signup" className="underline">Sign up</Link></>
+            )}
           </div>
         </div>
 

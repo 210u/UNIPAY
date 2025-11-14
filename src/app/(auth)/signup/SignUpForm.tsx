@@ -6,10 +6,11 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Lock, Mail, User, Phone, AtSign, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { Lock, Mail, User, Phone, AtSign, CheckCircle, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import { supabase } from '@/lib/supabase/config';
+import type { Database } from '@/lib/supabase/database.types';
 import Link from 'next/link';
 
 const signUpSchema = z.object({
@@ -24,6 +25,7 @@ const signUpSchema = z.object({
 });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
+type UserProfileInsert = Database['public']['Tables']['user_profiles']['Insert'];
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,17 +45,15 @@ export default function SignUpForm() {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    console.log('🔵 SIGNUP: Form submitted', { 
-      email: data.email, 
-      username: data.username,
-      phoneNumber: data.phoneNumber 
+    console.log('SIGNUP: Form submitted', { 
+      email: data.email
     });
     
     try {
       setIsLoading(true);
       setUserEmail(data.email);
       
-      console.log('🔵 SIGNUP: Calling Supabase signUp...');
+      console.log('SIGNUP: Calling Supabase signUp...');
       
       // Sign up the user with email confirmation
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
@@ -64,13 +64,11 @@ export default function SignUpForm() {
           data: {
             first_name: data.firstName,
             last_name: data.lastName,
-            username: data.username,
-            phone_number: data.phoneNumber,
           },
         },
       });
 
-      console.log('🔵 SIGNUP: Auth response', { 
+      console.log('SIGNUP: Auth response', { 
         hasUser: !!authData?.user,
         userId: authData?.user?.id,
         hasSession: !!authData?.session,
@@ -78,7 +76,7 @@ export default function SignUpForm() {
       });
 
       if (signUpError) {
-        console.error('❌ SIGNUP ERROR:', signUpError);
+        console.error('SIGNUP ERROR:', signUpError);
         setError('root', {
           message: signUpError.message,
         });
@@ -86,27 +84,28 @@ export default function SignUpForm() {
       }
 
       if (authData.user) {
-        console.log('🔵 SIGNUP: Creating user profile...');
+        console.log('SIGNUP: Creating user profile...');
         
         // Create user profile with all fields
         // Note: university_id will be null initially and set by admin later
-        const { data: profileData, error: profileError } = await supabase
-          .from('user_profiles')
-          .insert({
+        const profilePayload: UserProfileInsert = {
             id: authData.user.id,
             email: data.email,
             first_name: data.firstName,
             last_name: data.lastName,
-            phone_number: data.phoneNumber,
-            role: 'employee', // Default role
-            university_id: null, // Will be assigned by admin
-          })
+          role: 'employee',
+          university_id: null,
+        };
+
+        const { data: profileData, error: profileError } = await supabase
+          .from('user_profiles' as any)
+          .insert([profilePayload] as any)
           .select()
           .single();
 
         if (profileError) {
-          console.error('❌ PROFILE ERROR:', profileError);
-          console.error('   Error details:', {
+          console.error('PROFILE ERROR:', profileError);
+          console.error('Error details:', {
             message: profileError.message,
             details: profileError.details,
             hint: profileError.hint,
@@ -114,28 +113,28 @@ export default function SignUpForm() {
           });
           // Continue anyway - user is created in auth
         } else {
-          console.log('✅ PROFILE CREATED:', profileData);
+          console.log('PROFILE CREATED:', profileData);
         }
 
         // Check if email confirmation is required
         if (authData.session) {
           // No email confirmation required - redirect immediately
-          console.log('✅ SIGNUP: Session created, redirecting...');
+          console.log('SIGNUP: Session created, redirecting...');
           router.push('/dashboard');
         } else {
           // Email confirmation required - show welcome message
-          console.log('⚠️ SIGNUP: Email confirmation required');
+          console.log('SIGNUP: Email confirmation required');
           setShowWelcome(true);
         }
       }
     } catch (error) {
-      console.error('❌ SIGNUP CATCH ERROR:', error);
+      console.error('SIGNUP CATCH ERROR:', error);
       setError('root', {
         message: 'An error occurred. Please try again.',
       });
     } finally {
       setIsLoading(false);
-      console.log('🔵 SIGNUP: Process complete');
+      console.log('SIGNUP: Process complete');
     }
   };
 
@@ -155,7 +154,7 @@ export default function SignUpForm() {
         >
           <CheckCircle className="mx-auto h-16 w-16 text-[color:var(--color-text-accent)] mb-4" />
         </motion.div>
-        <h3 className="text-2xl font-bold text-[color:var(--color-text-primary)] mb-2">Welcome to Unipay! 🎉</h3>
+        <h3 className="text-2xl font-bold text-[color:var(--color-text-primary)] mb-2">Welcome to Unipay!</h3>
         <p className="text-[color:var(--color-text-secondary)] mb-4">
           Thank you for creating your account, <span className="font-semibold">{userEmail}</span>!
         </p>
@@ -184,8 +183,8 @@ export default function SignUpForm() {
       transition={{ duration: 0.3 }}
       className="w-full text-[color:var(--color-text-primary)]"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <div className="space-y-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
@@ -235,11 +234,33 @@ export default function SignUpForm() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              title={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
           <p className="text-xs text-[color:var(--color-text-secondary)] mt-1 ml-3">Must be at least 8 characters.</p>
+
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[color:var(--color-text-secondary)]" />
+            <Input
+              {...register('confirmPassword')}
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="Confirm your password"
+              className="pl-10 pr-10"
+              error={errors.confirmPassword?.message}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]"
+              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+              title={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+            >
+              {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {errors.root && (
@@ -252,28 +273,16 @@ export default function SignUpForm() {
           </motion.p>
         )}
 
-        <div className="pt-4">
+        <div className="pt-0">
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center space-x-2 hover:text-gray-400 dark:hover:text-gray-700 transition-colors"
             size="lg"
             isLoading={isLoading}
           >
-            Sign Up
+            <span>Sign Up</span>
+            <ArrowRight className="h-5 w-5" />
           </Button>
-        </div>
-
-        <div className="text-center text-sm mt-6">
-          <p className="text-[color:var(--color-text-secondary)]">
-            Already have an account?{' '}
-            <Link
-              href="/signin"
-              className="font-medium text-[color:var(--color-text-primary)] hover:underline"
-              prefetch={true}
-            >
-              Log in
-            </Link>
-          </p>
         </div>
       </form>
     </motion.div>

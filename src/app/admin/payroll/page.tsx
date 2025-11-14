@@ -149,7 +149,7 @@ const recentPayrollRunColumns = [
 ];
 
 export default function PayrollPage() {
-  return (
+    return (
     <div className="space-y-8">
       {/* Payroll Overview Statistics */}
       <DashboardCard>
@@ -196,8 +196,8 @@ export default function PayrollPage() {
               <Filter className="h-4 w-4" />
               <span>Filter</span>
             </Button>
-          </div>
         </div>
+      </div>
         <DashboardTable data={payrollCycles} columns={payrollCycleColumns} />
       </DashboardCard>
 

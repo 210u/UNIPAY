@@ -155,7 +155,7 @@ const scheduledReportsColumns = [
 ];
 
 export default function ReportsPage() {
-  return (
+    return (
     <div className="space-y-8">
       {/* Report Generation Section */}
       <DashboardCard>
@@ -202,8 +202,8 @@ export default function ReportsPage() {
               <Filter className="h-4 w-4" />
               <span>Filter</span>
             </Button>
-          </div>
         </div>
+      </div>
         <DashboardTable data={availableReports} columns={availableReportsColumns} />
       </DashboardCard>
 
