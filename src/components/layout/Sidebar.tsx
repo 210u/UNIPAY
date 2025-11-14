@@ -68,16 +68,16 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 bg-sidebarBg text-sidebarItemText border-r border-sidebarBorder p-4 flex flex-col h-screen sticky top-0">
+    <div className="w-64 bg-sidebarBg text-sidebarItemText p-4 flex flex-col h-screen sticky top-0 neumorphic-subtle" style={{ boxShadow: 'var(--neumorphic-shadow-subtle)' }}>
       {/* User Profile */}
       <div className="flex items-center space-x-2 mb-6 p-2">
-        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border border-gray-300">
+        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden neumorphic-subtle">
           {/* <Image src="/images/unipay-logo.png" alt="Unipay Logo" width={24} height={24} className="object-cover" /> */}
           <span className="font-bold text-textPrimary text-sm">UN</span>
         </div>
         <div>
-          <p className="font-medium text-sm text-textPrimary">Courtney Henry</p>
-          <p className="text-xs text-textSubtle">The Walt Disney Company</p>
+          <p className="font-medium text-sm text-textPrimary">UNIPAY</p>
+          <p className="text-xs text-textSubtle">University payroll system</p>
         </div>
         <ChevronRight className="h-4 w-4 text-textSubtle ml-auto" />
       </div>
@@ -88,7 +88,7 @@ const Sidebar = () => {
         <input
           type="text"
           placeholder="Search..."
-          className="w-full py-2 pl-10 pr-3 rounded-md bg-inputBg border border-inputBorder text-textPrimary placeholder:text-inputPlaceholder focus:outline-none focus:ring-1 focus:ring-inputFocusBorder focus:border-inputFocusBorder"
+          className="w-full py-2 pl-10 pr-3 rounded-md bg-inputBg neumorphic-inset text-textPrimary placeholder:text-inputPlaceholder focus:outline-none focus:ring-2 focus:ring-inputFocusRing transition-shadow"
         />
       </div>
 
@@ -140,7 +140,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer / Logout */}
-      <div className="mt-auto p-2 border-t border-sidebarBorder">
+      <div className="mt-auto p-2 neumorphic-divider">
         <Link href="#"
           className="flex items-center space-x-3 p-2 rounded-md text-sm text-textSecondary hover:bg-sidebarItemHoverBg hover:text-textPrimary"
         >

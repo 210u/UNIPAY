@@ -28,12 +28,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={cn(
               'block w-full rounded-md px-4 py-2',
-              'bg-inputBg border border-inputBorder text-textPrimary placeholder:text-inputPlaceholder',
-              'focus:outline-none focus:ring-1 focus:ring-inputFocusRing focus:border-inputFocusBorder',
+              'bg-inputBg neumorphic-inset text-textPrimary placeholder:text-inputPlaceholder',
+              'focus:outline-none focus:ring-2 focus:ring-inputFocusRing',
               'disabled:cursor-not-allowed disabled:opacity-50',
-              error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
+              'transition-shadow',
+              error && 'focus:ring-red-500/20',
               className
             )}
+            style={error ? undefined : { boxShadow: 'var(--neumorphic-shadow-inset)' }}
             ref={ref}
             {...props}
           />

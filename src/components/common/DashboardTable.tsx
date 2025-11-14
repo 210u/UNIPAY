@@ -16,8 +16,8 @@ interface DashboardTableProps<T> {
 
 const DashboardTable = <T extends {}>({ data, columns, className }: DashboardTableProps<T>) => {
   return (
-    <div className={cn("w-full overflow-hidden rounded-lg border border-cardBorder shadow-card", className)}>
-      <table className="min-w-full divide-y divide-cardBorder">
+    <div className={cn("w-full overflow-hidden rounded-lg neumorphic-raised", className)}>
+      <table className="min-w-full">
         <thead className="bg-gray-50 dark:bg-gray-800">
           <tr>
             {columns.map((column) => (
@@ -31,9 +31,15 @@ const DashboardTable = <T extends {}>({ data, columns, className }: DashboardTab
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-cardBorder bg-cardBg">
+        <tbody className="bg-cardBg">
           {data.map((item: T, rowIndex) => (
-            <tr key={rowIndex} className="hover:bg-sidebarItemHoverBg">
+            <tr 
+              key={rowIndex} 
+              className={cn(
+                "hover:bg-sidebarItemHoverBg transition-colors",
+                rowIndex < data.length - 1 && "neumorphic-divider"
+              )}
+            >
               {columns.map((column) => (
                 <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
                   {column.render ? column.render(item) : (item as any)[column.key]}

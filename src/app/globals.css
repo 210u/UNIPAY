@@ -17,6 +17,12 @@
   --color-card-bg: #ffffff; /* White card background */
   --color-card-border: #e0e0e0; /* Light grey border for cards */
   --color-card-shadow: rgba(0, 0, 0, 0.05); /* Subtle shadow for cards */
+  
+  /* Neomorphic shadows - Light mode (raised effect) */
+  --neumorphic-shadow-light: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.8);
+  --neumorphic-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+  --neumorphic-shadow-subtle: 4px 4px 8px rgba(0, 0, 0, 0.08), -4px -4px 8px rgba(255, 255, 255, 0.9);
+  --neumorphic-shadow-table: 2px 2px 4px rgba(0, 0, 0, 0.05), -2px -2px 4px rgba(255, 255, 255, 0.95);
 
   --color-text-primary: #1a1a1a; /* Primary text color (dark) */
   --color-text-secondary: #666666; /* Secondary text color (medium grey) */
@@ -72,6 +78,12 @@
   --color-card-bg: #2a2a2a; /* Dark grey card background */
   --color-card-border: #4a4a4a; /* Dark grey border for cards */
   --color-card-shadow: rgba(0, 0, 0, 0.2); /* Subtle shadow for cards */
+  
+  /* Neomorphic shadows - Dark mode (raised effect) */
+  --neumorphic-shadow-light: 8px 8px 16px rgba(0, 0, 0, 0.5), -8px -8px 16px rgba(255, 255, 255, 0.05);
+  --neumorphic-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+  --neumorphic-shadow-subtle: 4px 4px 8px rgba(0, 0, 0, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.08);
+  --neumorphic-shadow-table: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.05);
 
   --color-text-primary: #e0e0e0; /* Primary text color (light) */
   --color-text-secondary: #a3a3a3; /* Secondary text color (medium light grey) */
@@ -123,4 +135,34 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-text-size-adjust: 100%;
           text-size-adjust: 100%;
+}
+
+/* Neomorphic utility classes */
+.neumorphic-raised {
+  box-shadow: var(--neumorphic-shadow-light);
+  border: none;
+}
+
+.neumorphic-inset {
+  box-shadow: var(--neumorphic-shadow-inset);
+  border: none;
+}
+
+.neumorphic-subtle {
+  box-shadow: var(--neumorphic-shadow-subtle);
+  border: none;
+}
+
+.neumorphic-table {
+  box-shadow: var(--neumorphic-shadow-table);
+  border: none;
+}
+
+.neumorphic-divider {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 -2px 4px rgba(255, 255, 255, 0.9);
+  border: none;
+}
+
+.dark .neumorphic-divider {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 -2px 4px rgba(255, 255, 255, 0.05);
 }

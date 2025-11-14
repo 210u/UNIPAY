@@ -18,7 +18,7 @@ const DashboardHeader = ({ title }: { title: string }) => {
   const [activeTab, setActiveTab] = useState("Employee Overview");
 
   return (
-    <div className="bg-headerBg border-b border-headerBorder p-4 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10">
+    <div className="bg-headerBg p-4 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10 neumorphic-divider">
       <div className="flex flex-col md:flex-row items-center">
         <h1 className="text-2xl font-bold text-textPrimary mb-2 md:mb-0 md:mr-6">{title}</h1>
         <div className="flex space-x-3">

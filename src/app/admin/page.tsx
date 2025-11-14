@@ -165,11 +165,11 @@ export default function AdminDashboardPage() {
             <h2 className="text-xl font-semibold">Payroll Tasks Overview</h2>
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle z-10" />
                 <Input
                   type="text"
                   placeholder="Search..."
-                  className="w-48 py-2 pl-10 pr-3 rounded-md bg-inputBg border border-inputBorder text-textPrimary placeholder:text-inputPlaceholder focus:outline-none focus:ring-1 focus:ring-inputFocusBorder focus:border-inputFocusBorder"
+                  className="w-48 pl-10"
                 />
               </div>
               <Button variant="secondary" className="flex items-center space-x-2 text-sm">
@@ -186,11 +186,11 @@ export default function AdminDashboardPage() {
             <h2 className="text-xl font-semibold">Pending Approvals</h2>
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle z-10" />
                 <Input
                   type="text"
                   placeholder="Search..."
-                  className="w-48 py-2 pl-10 pr-3 rounded-md bg-inputBg border border-inputBorder text-textPrimary placeholder:text-inputPlaceholder focus:outline-none focus:ring-1 focus:ring-inputFocusBorder focus:border-inputFocusBorder"
+                  className="w-48 pl-10"
                 />
               </div>
               <Button variant="secondary" className="flex items-center space-x-2 text-sm">
