@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, Users, LayoutDashboard, FileText, Plus, Bell, Settings, BarChart2, UserPlus, FolderPlus, ClipboardPlus } from 'lucide-react';
-import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { useRouter } from 'next/navigation';
 
 const tabItems = [
   { name: "Employee Overview", icon: LayoutDashboard },
@@ -16,6 +16,7 @@ const tabItems = [
 
 const DashboardHeader = ({ title }: { title: string }) => {
   const [activeTab, setActiveTab] = useState("Employee Overview");
+  const router = useRouter();
 
   return (
     <div className="bg-headerBg p-4 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10 neumorphic-divider">
@@ -26,7 +27,7 @@ const DashboardHeader = ({ title }: { title: string }) => {
             <button
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors neumorphic-subtle
                 ${activeTab === tab.name
                   ? 'bg-sidebarItemActiveBg text-sidebarItemActiveText'
                   : 'text-textSecondary hover:text-textPrimary hover:bg-sidebarItemHoverBg'
@@ -40,15 +41,27 @@ const DashboardHeader = ({ title }: { title: string }) => {
       </div>
 
       <div className="flex items-center space-x-4 mt-4 md:mt-0">
-        <Button variant="secondary" className="flex items-center space-x-2 text-sm">
+        <Button
+          variant="secondary"
+          className="flex items-center space-x-2 text-sm"
+          onClick={() => router.push('/admin/employees')}
+        >
           <UserPlus className="h-4 w-4" />
           <span>Add Employee</span>
         </Button>
-        <Button variant="secondary" className="flex items-center space-x-2 text-sm">
+        <Button
+          variant="secondary"
+          className="flex items-center space-x-2 text-sm"
+          onClick={() => router.push('/admin/payroll')}
+        >
           <FolderPlus className="h-4 w-4" />
           <span>Create Payroll</span>
         </Button>
-        <Button variant="primary" className="flex items-center space-x-2 text-sm">
+        <Button
+          variant="primary"
+          className="flex items-center space-x-2 text-sm"
+          onClick={() => router.push('/admin/reports')}
+        >
           <ClipboardPlus className="h-4 w-4" />
           <span>New Report</span>
         </Button>

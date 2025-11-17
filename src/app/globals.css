@@ -19,10 +19,10 @@
   --color-card-shadow: rgba(0, 0, 0, 0.05); /* Subtle shadow for cards */
   
   /* Neomorphic shadows - Light mode (raised effect) */
-  --neumorphic-shadow-light: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.8);
-  --neumorphic-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px rgba(255, 255, 255, 0.8);
-  --neumorphic-shadow-subtle: 4px 4px 8px rgba(0, 0, 0, 0.08), -4px -4px 8px rgba(255, 255, 255, 0.9);
-  --neumorphic-shadow-table: 2px 2px 4px rgba(0, 0, 0, 0.05), -2px -2px 4px rgba(255, 255, 255, 0.95);
+  --neumorphic-shadow-light: 12px 12px 24px rgba(149, 117, 205, 0.35), -12px -12px 24px rgba(255, 255, 255, 0.9);
+  --neumorphic-shadow-inset: inset 6px 6px 12px rgba(149, 117, 205, 0.25), inset -6px -6px 12px rgba(255, 255, 255, 0.85);
+  --neumorphic-shadow-subtle: 6px 6px 12px rgba(149, 117, 205, 0.25), -6px -6px 12px rgba(255, 255, 255, 0.9);
+  --neumorphic-shadow-table: 4px 4px 8px rgba(149, 117, 205, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.95);
 
   --color-text-primary: #1a1a1a; /* Primary text color (dark) */
   --color-text-secondary: #666666; /* Secondary text color (medium grey) */
@@ -80,10 +80,10 @@
   --color-card-shadow: rgba(0, 0, 0, 0.2); /* Subtle shadow for cards */
   
   /* Neomorphic shadows - Dark mode (raised effect) */
-  --neumorphic-shadow-light: 8px 8px 16px rgba(0, 0, 0, 0.5), -8px -8px 16px rgba(255, 255, 255, 0.05);
-  --neumorphic-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.05);
-  --neumorphic-shadow-subtle: 4px 4px 8px rgba(0, 0, 0, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.08);
-  --neumorphic-shadow-table: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.05);
+  --neumorphic-shadow-light: 12px 12px 24px rgba(98, 0, 234, 0.4), -12px -12px 24px rgba(255, 255, 255, 0.05);
+  --neumorphic-shadow-inset: inset 6px 6px 12px rgba(98, 0, 234, 0.35), inset -6px -6px 12px rgba(255, 255, 255, 0.08);
+  --neumorphic-shadow-subtle: 6px 6px 12px rgba(98, 0, 234, 0.3), -6px -6px 12px rgba(255, 255, 255, 0.08);
+  --neumorphic-shadow-table: 4px 4px 8px rgba(98, 0, 234, 0.25), -4px -4px 8px rgba(255, 255, 255, 0.06);
 
   --color-text-primary: #e0e0e0; /* Primary text color (light) */
   --color-text-secondary: #a3a3a3; /* Secondary text color (medium light grey) */
