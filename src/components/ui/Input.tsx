@@ -1,62 +1,26 @@
-"use client";
+// src/components/ui/Input.tsx
+import * as React from "react"
 
-import { forwardRef, InputHTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils"
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-  label?: string;
-}
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error, label, type, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
     return (
-      <div className="relative w-full">
-        {label && (
-          <label
-            className="block text-sm font-medium text-[color:var(--color-text-primary)] mb-1"
-            htmlFor={props.id}
-          >
-            {label}
-          </label>
+      <input
+        type={type}
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
         )}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <input
-            type={type}
-            className={cn(
-              'block w-full rounded-md px-4 py-2',
-              'bg-inputBg neumorphic-inset text-textPrimary placeholder:text-inputPlaceholder',
-              'focus:outline-none focus:ring-2 focus:ring-inputFocusRing',
-              'disabled:cursor-not-allowed disabled:opacity-50',
-              'transition-shadow',
-              error && 'focus:ring-red-500/20',
-              className
-            )}
-            style={error ? undefined : { boxShadow: 'var(--neumorphic-shadow-inset)' }}
-            ref={ref}
-            {...props}
-          />
-        </motion.div>
-        {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-1 text-sm text-red-500"
-          >
-            {error}
-          </motion.p>
-        )}
-      </div>
-    );
+        ref={ref}
+        {...props}
+      />
+    )
   }
-);
+)
+Input.displayName = "Input"
 
-Input.displayName = 'Input';
-
-export default Input;
-
+export default Input

@@ -12,13 +12,23 @@ import StatsCard from './StatsCard';
 import TimesheetList from './TimesheetList';
 import PaymentHistory from './PaymentHistory';
 
+type EmployeeWithDetails = Tables<'employees'> & {
+  departments: Tables<'departments'> | null;
+  universities: Tables<'universities'> | null;
+};
+
+type AssignmentWithDetails = Tables<'employee_assignments'> & {
+  job_positions: Tables<'job_positions'> | null;
+  departments: Tables<'departments'> | null;
+};
+
 interface DashboardContentProps {
   profile: Tables<'user_profiles'> | null;
-  employee: any | null;
+  employee: EmployeeWithDetails | null;
 }
 
 export default function DashboardContent({ profile, employee }: DashboardContentProps) {
-  const [assignments, setAssignments] = useState<any[]>([]);
+  const [assignments, setAssignments] = useState<AssignmentWithDetails[]>([]);
   const [timesheets, setTimesheets] = useState<any[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
   const [ytdEarnings, setYtdEarnings] = useState<number>(0);

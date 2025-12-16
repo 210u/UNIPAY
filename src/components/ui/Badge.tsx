@@ -2,28 +2,25 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface BadgeProps {
-  variant: 'feature' | 'bug' | 'review' | 'testing' | 'high' | 'medium' | 'low';
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info';
   children: React.ReactNode;
   className?: string;
 }
 
-const Badge = ({ variant, children, className }: BadgeProps) => {
+const Badge = ({ variant = 'default', children, className }: BadgeProps) => {
   const baseStyles = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
 
-  const variants = {
-    feature: 'bg-badgeFeatureBg text-badgeFeatureText',
-    bug: 'bg-badgeBugBg text-badgeBugText',
-    review: 'bg-badgeReviewBg text-badgeReviewText',
-    testing: 'bg-badgeTestingBg text-badgeTestingText',
-    high: 'bg-priorityHighBg text-priorityHighText',
-    medium: 'bg-priorityMediumBg text-priorityMediumText',
-    low: 'bg-priorityLowBg text-priorityLowText',
+  const variantStyles = {
+    default: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+    success: 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
+    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
+    danger: 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
+    info: 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100',
   };
 
   return (
-    <span className={cn(baseStyles, variants[variant], className)}>{children}</span>
+    <span className={cn(baseStyles, variantStyles[variant], className)}>{children}</span>
   );
 };
 
 export default Badge;
-

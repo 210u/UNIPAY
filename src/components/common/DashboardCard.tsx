@@ -8,7 +8,7 @@ interface DashboardCardProps {
 
 const DashboardCard = ({ children, className }: DashboardCardProps) => {
   return (
-    <div className={cn("bg-cardBg p-6 rounded-lg neumorphic-raised", className)}>
+    <div className={cn("bg-white dark:bg-gray-800 p-6 rounded-lg shadow", className)}>
       {children}
     </div>
   );

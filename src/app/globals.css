@@ -1,168 +1,125 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f8f8; /* Very light grey for main background */
-  --foreground: #1a1a1a; /* Dark text for general use */
+  /* Colors */
+  --background: 0 0% 100%; /* hsl(0, 0%, 100%) White */
+  --foreground: 222.2 47.4% 11.2%; /* hsl(222.2, 47.4%, 11.2%) Dark Blue-Gray */
 
-  --color-sidebar-bg: #ffffff; /* White sidebar background */
-  --color-sidebar-border: #f0f0f0; /* Light border for sidebar */
-  --color-sidebar-item-active-bg: #f0f0f0; /* Light grey for active sidebar item */
-  --color-sidebar-item-hover-bg: #f0f0f0; /* Light grey for hover sidebar item */
-  --color-sidebar-item-text: #666666; /* Grey text for sidebar items */
-  --color-sidebar-item-active-text: #1a1a1a; /* Dark text for active sidebar item */
+  --muted: 210 40% 96.1%; /* hsl(210, 40%, 96.1%) Light Gray */
+  --muted-foreground: 215.4 16.3% 46.9%; /* hsl(215.4, 16.3%, 46.9%) Gray */
 
-  --color-header-bg: #ffffff; /* White header background */
-  --color-header-border: #f0f0f0; /* Light border for header */
+  --popover: 0 0% 100%; /* hsl(0, 0%, 100%) White */
+  --popover-foreground: 222.2 47.4% 11.2%; /* hsl(222.2, 47.4%, 11.2%) Dark Blue-Gray */
 
-  --color-card-bg: #ffffff; /* White card background */
-  --color-card-border: #e0e0e0; /* Light grey border for cards */
-  --color-card-shadow: rgba(0, 0, 0, 0.05); /* Subtle shadow for cards */
+  --border: 214.3 31.8% 91.4%; /* hsl(214.3, 31.8%, 91.4%) Light Gray-Blue */
+  --input: 214.3 31.8% 91.4%; /* hsl(214.3, 31.8%, 91.4%) Light Gray-Blue */
+
+  --card: 0 0% 100%; /* hsl(0, 0%, 100%) White */
+  --card-foreground: 222.2 47.4% 11.2%; /* hsl(222.2, 47.4%, 11.2%) Dark Blue-Gray */
+
+  --primary: 220.9 39.3% 39.1%; /* hsl(220.9, 39.3%, 39.1%) Medium Blue */
+  --primary-foreground: 210 40% 98%; /* hsl(210, 40%, 98%) Off-White */
+
+  --secondary: 210 40% 96.1%; /* hsl(210, 40%, 96.1%) Light Gray */
+  --secondary-foreground: 222.2 47.4% 11.2%; /* hsl(222.2, 47.4%, 11.2%) Dark Blue-Gray */
+
+  --accent: 210 40% 96.1%; /* hsl(210, 40%, 96.1%) Light Gray (for accent backgrounds) */
+  --accent-foreground: 222.2 47.4% 11.2%; /* hsl(222.2, 47.4%, 11.2%) Dark Blue-Gray (for accent text) */
+
+  --destructive: 0 84.2% 60.2%; /* hsl(0, 84.2%, 60.2%) Red */
+  --destructive-foreground: 0 0% 98%; /* hsl(0, 0%, 98%) White */
+
+  --ring: 215 20.2% 65.1%; /* hsl(215, 20.2%, 65.1%) Medium Gray-Blue */
   
-  /* Neomorphic shadows - Light mode (raised effect) */
-  --neumorphic-shadow-light: 12px 12px 24px rgba(149, 117, 205, 0.35), -12px -12px 24px rgba(255, 255, 255, 0.9);
-  --neumorphic-shadow-inset: inset 6px 6px 12px rgba(149, 117, 205, 0.25), inset -6px -6px 12px rgba(255, 255, 255, 0.85);
-  --neumorphic-shadow-subtle: 6px 6px 12px rgba(149, 117, 205, 0.25), -6px -6px 12px rgba(255, 255, 255, 0.9);
-  --neumorphic-shadow-table: 4px 4px 8px rgba(149, 117, 205, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.95);
+  --radius: 0.5rem; /* Border radius */
+  --sidebar-width-open: 16rem; /* 256px */
+  --sidebar-width-closed: 5rem; /* 80px */
 
-  --color-text-primary: #1a1a1a; /* Primary text color (dark) */
-  --color-text-secondary: #666666; /* Secondary text color (medium grey) */
-  --color-text-subtle: #999999; /* Subtle text color (light grey) */
-  --color-text-accent: #007bff; /* Blue accent for links/active states */
-
-  --color-input-bg: #f9f9f9; /* Light grey for input backgrounds */
-  --color-input-border: #e0e0e0; /* Light grey border for inputs */
-  --color-input-placeholder: #999999; /* Placeholder text color */
-  --color-input-focus-border: #007bff; /* Blue focus border */
-  --color-input-focus-ring: rgba(0, 123, 255, 0.2); /* Blue focus ring */
-
-  --color-button-primary-bg: #1a1a1a; /* Black button background */
-  --color-button-primary-text: #ffffff; /* White button text */
-  --color-button-secondary-bg: #f0f0f0; /* Light grey secondary button */
-  --color-button-secondary-text: #1a1a1a; /* Dark text for secondary button */
-  --color-button-outline-border: #cccccc; /* Light grey outline button border */
-  --color-button-outline-text: #4d4d4d; /* Dark grey outline button text */
-
-  /* Badge colors */
-  --color-badge-feature-bg: #d4edda; /* Light green */
-  --color-badge-feature-text: #155724; /* Dark green */
-  --color-badge-bug-bg: #f8d7da; /* Light red */
-  --color-badge-bug-text: #721c24; /* Dark red */
-  --color-badge-review-bg: #fff3cd; /* Light yellow */
-  --color-badge-review-text: #856404; /* Dark yellow */
-  --color-badge-testing-bg: #cce5ff; /* Light blue */
-  --color-badge-testing-text: #004085; /* Dark blue */
-
-  /* Priority colors */
-  --color-priority-high-bg: #f8d7da; /* Light red */
-  --color-priority-high-text: #721c24; /* Dark red */
-  --color-priority-medium-bg: #fff3cd; /* Light yellow */
-  --color-priority-medium-text: #856404; /* Dark yellow */
-  --color-priority-low-bg: #d4edda; /* Light green */
-  --color-priority-low-text: #155724; /* Dark green */
+  /* Custom semantic colors for clarity */
+  --textPrimary: hsl(var(--foreground));
+  --textSecondary: hsl(215.4 16.3% 46.9%); /* Muted foreground */
+  --textSubtle: hsl(215 20.2% 65.1%); /* Ring color, for subtle text */
+  --hoverBg: hsl(210 40% 96.1%); /* Muted */
+  --inputBorder: hsl(var(--border));
+  --inputBg: hsl(var(--background));
+  
+  /* Badge specific */
+  --badge-success-bg: 142.1 76.2% 36.3%;
+  --badge-success-foreground: 142.1 70.2% 99.1%;
+  --badge-warning-bg: 48 96% 89%;
+  --badge-warning-foreground: 48 95.9% 4.9%;
+  --badge-info-bg: 210 40% 96.1%;
+  --badge-info-foreground: 222.2 47.4% 11.2%;
+  --badge-destructive-bg: 0 84.2% 60.2%;
+  --badge-destructive-foreground: 0 0% 98%;
 }
 
 .dark {
-  --background: #1a1a1a; /* Dark mode background: Dark grey */
-  --foreground: #e0e0e0; /* Light grey for general text */
+  --background: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
+  --foreground: 210 40% 98%; /* Off-White */
 
-  --color-sidebar-bg: #2a2a2a; /* Darker grey sidebar background */
-  --color-sidebar-border: #333333; /* Dark border for sidebar */
-  --color-sidebar-item-active-bg: #333333; /* Darker grey for active sidebar item */
-  --color-sidebar-item-hover-bg: #333333; /* Darker grey for hover sidebar item */
-  --color-sidebar-item-text: #a3a3a3; /* Light grey text for sidebar items */
-  --color-sidebar-item-active-text: #ffffff; /* White text for active sidebar item */
+  --muted: 217.2 32.6% 17.5%; /* Darker Blue-Gray */
+  --muted-foreground: 215 20.2% 65.1%; /* Medium Gray-Blue */
 
-  --color-header-bg: #1a1a1a; /* Dark header background */
-  --color-header-border: #333333; /* Dark border for header */
+  --popover: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
+  --popover-foreground: 210 40% 98%; /* Off-White */
 
-  --color-card-bg: #2a2a2a; /* Dark grey card background */
-  --color-card-border: #4a4a4a; /* Dark grey border for cards */
-  --color-card-shadow: rgba(0, 0, 0, 0.2); /* Subtle shadow for cards */
-  
-  /* Neomorphic shadows - Dark mode (raised effect) */
-  --neumorphic-shadow-light: 12px 12px 24px rgba(98, 0, 234, 0.4), -12px -12px 24px rgba(255, 255, 255, 0.05);
-  --neumorphic-shadow-inset: inset 6px 6px 12px rgba(98, 0, 234, 0.35), inset -6px -6px 12px rgba(255, 255, 255, 0.08);
-  --neumorphic-shadow-subtle: 6px 6px 12px rgba(98, 0, 234, 0.3), -6px -6px 12px rgba(255, 255, 255, 0.08);
-  --neumorphic-shadow-table: 4px 4px 8px rgba(98, 0, 234, 0.25), -4px -4px 8px rgba(255, 255, 255, 0.06);
+  --border: 217.2 32.6% 17.5%; /* Darker Blue-Gray */
+  --input: 217.2 32.6% 17.5%; /* Darker Blue-Gray */
 
-  --color-text-primary: #e0e0e0; /* Primary text color (light) */
-  --color-text-secondary: #a3a3a3; /* Secondary text color (medium light grey) */
-  --color-text-subtle: #666666; /* Subtle text color (darker grey) */
-  --color-text-accent: #818cf8; /* Light purple accent for links/active states */
+  --card: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
+  --card-foreground: 210 40% 98%; /* Off-White */
 
-  --color-input-bg: #333333; /* Dark grey for input backgrounds */
-  --color-input-border: #4a4a4a; /* Dark grey border for inputs */
-  --color-input-placeholder: #666666; /* Placeholder text color */
-  --color-input-focus-border: #818cf8; /* Light purple focus border */
-  --color-input-focus-ring: rgba(129, 140, 248, 0.2); /* Light purple focus ring */
+  --primary: 210 40% 98%; /* Off-White */
+  --primary-foreground: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
 
-  --color-button-primary-bg: #ffffff; /* White button background */
-  --color-button-primary-text: #000000; /* Black button text */
-  --color-button-secondary-bg: #4a4a4a; /* Dark grey secondary button */
-  --color-button-secondary-text: #ffffff; /* White text for secondary button */
-  --color-button-outline-border: #666666; /* Medium grey outline button border */
-  --color-button-outline-text: #e0e0e0; /* Light grey outline button text */
+  --secondary: 217.2 32.6% 17.5%; /* Darker Blue-Gray */
+  --secondary-foreground: 210 40% 98%; /* Off-White */
 
-  /* Badge colors */
-  --color-badge-feature-bg: #155724; /* Dark green */
-  --color-badge-feature-text: #d4edda; /* Light green */
-  --color-badge-bug-bg: #721c24; /* Dark red */
-  --color-badge-bug-text: #f8d7da; /* Light red */
-  --color-badge-review-bg: #856404; /* Dark yellow */
-  --color-badge-review-text: #fff3cd; /* Light yellow */
-  --color-badge-testing-bg: #004085; /* Dark blue */
-  --color-badge-testing-text: #cce5ff; /* Light blue */
+  --accent: 217.2 32.6% 17.5%; /* Darker Blue-Gray (for accent backgrounds) */
+  --accent-foreground: 210 40% 98%; /* Off-White (for accent text) */
 
-  /* Priority colors */
-  --color-priority-high-bg: #721c24; /* Dark red */
-  --color-priority-high-text: #f8d7da; /* Light red */
-  --color-priority-medium-bg: #856404; /* Dark yellow */
-  --color-priority-medium-text: #fff3cd; /* Light yellow */
-  --color-priority-low-bg: #155724; /* Dark green */
-  --color-priority-low-text: #d4edda; /* Light green */
+  --destructive: 0 62.8% 30.6%; /* Dark Red */
+  --destructive-foreground: 0 0% 98%; /* White */
+
+  --ring: 217.2 32.6% 37.5%; /* Even Darker Blue-Gray */
+
+  /* Custom semantic colors for clarity */
+  --textPrimary: hsl(var(--foreground));
+  --textSecondary: hsl(215 20.2% 65.1%); /* Muted foreground */
+  --textSubtle: hsl(217.2 32.6% 37.5%); /* Ring color, for subtle text */
+  --hoverBg: hsl(217.2 32.6% 17.5%); /* Muted */
+  --inputBorder: hsl(var(--border));
+  --inputBg: hsl(var(--background));
+
+  /* Badge specific */
+  --badge-success-bg: 142.1 70.2% 99.1%;
+  --badge-success-foreground: 142.1 76.2% 36.3%;
+  --badge-warning-bg: 48 95.9% 4.9%;
+  --badge-warning-foreground: 48 96% 89%;
+  --badge-info-bg: 222.2 47.4% 11.2%;
+  --badge-info-foreground: 210 40% 98%;
+  --badge-destructive-bg: 0 0% 98%;
+  --badge-destructive-foreground: 0 62.8% 30.6%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-geist-sans);
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-text-size-adjust: 100%;
-          text-size-adjust: 100%;
+/* The rest of your global styles */
+
+html.light {
+  color-scheme: light;
 }
 
-/* Neomorphic utility classes */
-.neumorphic-raised {
-  box-shadow: var(--neumorphic-shadow-light);
-  border: none;
-}
-
-.neumorphic-inset {
-  box-shadow: var(--neumorphic-shadow-inset);
-  border: none;
-}
-
-.neumorphic-subtle {
-  box-shadow: var(--neumorphic-shadow-subtle);
-  border: none;
-}
-
-.neumorphic-table {
-  box-shadow: var(--neumorphic-shadow-table);
-  border: none;
-}
-
-.neumorphic-divider {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 -2px 4px rgba(255, 255, 255, 0.9);
-  border: none;
-}
-
-.dark .neumorphic-divider {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 -2px 4px rgba(255, 255, 255, 0.05);
+html.dark {
+  color-scheme: dark;
 }

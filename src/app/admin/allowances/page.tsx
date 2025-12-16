@@ -1,220 +1,128 @@
-import { redirect } from 'next/navigation';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import React from 'react';
 import { Metadata } from 'next';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 import { Database } from '@/lib/supabase/database.types';
 import DashboardCard from '@/components/common/DashboardCard';
 import DashboardTable from '@/components/common/DashboardTable';
-import Badge from '@/components/ui/Badge';
-import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { Search, Filter, DollarSign, Clock, HandCoins } from 'lucide-react';
+import Input from '@/components/ui/Input';
+import { Search, Plus } from 'lucide-react';
+import Link from 'next/link';
+import Badge from '@/components/ui/Badge';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Allowances | University Payroll System',
-  description: 'Manage employee allowances',
+  title: 'Allowance Configurations | University Payroll System',
+  description: 'Manage allowance configurations',
 };
 
-interface Allowance {
-  id: number;
-  name: string;
-  type: string;
-  amount: string;
-  frequency: string;
-  status: string;
+type AllowanceConfig = Database['public']['Tables']['allowance_configs']['Row'];
+
+async function getAllowanceConfigs(): Promise<AllowanceConfig[]> {
+  const cookieStore = cookies();
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+
+  const { data, error } = await supabase
+    .from('allowance_configs')
+    .select('*')
+    .order('name', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching allowance configurations:', error);
+    return [];
+  }
+
+  return data;
 }
 
-interface RecentAllowanceLog {
-  id: number;
-  employee: string;
-  allowance: string;
-  amount: string;
-  date: string;
-}
-
-const employeeAllowances: Allowance[] = [
+const allowanceConfigColumns = [
   {
-    id: 1,
-    name: "Housing Allowance",
-    type: "Fixed",
-    amount: "$500.00",
-    frequency: "Monthly",
-    status: "Active",
+    key: 'name',
+    header: 'Allowance Name',
+    render: (item: AllowanceConfig) => <span className="font-medium text-textPrimary">{item.name}</span>,
   },
   {
-    id: 2,
-    name: "Transport Allowance",
-    type: "Fixed",
-    amount: "$100.00",
-    frequency: "Monthly",
-    status: "Active",
+    key: 'code',
+    header: 'Code',
+    render: (item: AllowanceConfig) => <span className="text-textSecondary text-sm">{item.code}</span>,
   },
   {
-    id: 3,
-    name: "Research Grant",
-    type: "Variable",
-    amount: "$1000.00",
-    frequency: "Quarterly",
-    status: "Active",
+    key: 'allowance_type',
+    header: 'Type',
+    render: (item: AllowanceConfig) => <Badge variant="info">{item.allowance_type}</Badge>,
   },
   {
-    id: 4,
-    name: "Child Education Support",
-    type: "Fixed",
-    amount: "$200.00",
-    frequency: "Monthly",
-    status: "Active",
-  },
-];
-
-const recentAllowanceLogs: RecentAllowanceLog[] = [
-  {
-    id: 101,
-    employee: "Alice Brown",
-    allowance: "Housing Allowance",
-    amount: "$500.00",
-    date: "2024-11-01",
+    key: 'calculation_method',
+    header: 'Calculation Method',
+    render: (item: AllowanceConfig) => <span className="text-textSecondary text-sm">{item.calculation_method}</span>,
   },
   {
-    id: 102,
-    employee: "Bob Johnson",
-    allowance: "Transport Allowance",
-    amount: "$100.00",
-    date: "2024-11-01",
+    key: 'default_amount',
+    header: 'Default Amount',
+    render: (item: AllowanceConfig) => (
+      <span className="text-textSecondary text-sm">{item.default_amount ? `$${item.default_amount.toFixed(2)}` : 'N/A'}</span>
+    ),
   },
   {
-    id: 103,
-    employee: "Charlie Green",
-    allowance: "Research Grant",
-    amount: "$1000.00",
-    date: "2024-11-08",
+    key: 'default_percentage',
+    header: 'Default Percentage',
+    render: (item: AllowanceConfig) => (
+      <span className="text-textSecondary text-sm">{item.default_percentage ? `${item.default_percentage.toFixed(2)}%` : 'N/A'}</span>
+    ),
   },
   {
-    id: 104,
-    employee: "David Lee",
-    allowance: "Child Education Support",
-    amount: "$200.00",
-    date: "2024-11-01",
-  },
-];
-
-const employeeAllowanceColumns = [
-  {
-    key: "name",
-    header: "Allowance Name",
-    render: (item: Allowance) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: "type",
-    header: "Type",
-    render: (item: Allowance) => <Badge variant="feature">{item.type}</Badge>,
-  },
-  {
-    key: "amount",
-    header: "Amount",
-    render: (item: Allowance) => <span className="text-textPrimary">{item.amount}</span>,
-  },
-  {
-    key: "frequency",
-    header: "Frequency",
-    render: (item: Allowance) => <span className="text-textSecondary text-sm">{item.frequency}</span>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: Allowance) => (
-      <Badge variant={item.status === "Active" ? "low" : "medium"}>
-        {item.status}
+    key: 'is_taxable',
+    header: 'Taxable',
+    render: (item: AllowanceConfig) => (
+      <Badge variant={item.is_taxable ? 'danger' : 'success'}>
+        {item.is_taxable ? 'Yes' : 'No'}
       </Badge>
+    ),
+  },
+  {
+    key: 'is_active',
+    header: 'Status',
+    render: (item: AllowanceConfig) => (
+      <Badge variant={item.is_active ? 'success' : 'warning'}>
+        {item.is_active ? 'Active' : 'Inactive'}
+      </Badge>
+    ),
+  },
+  {
+    key: 'actions',
+    header: 'Actions',
+    render: (item: AllowanceConfig) => (
+      <div className="flex space-x-2">
+        <Link href={`/admin/allowances/${item.id}/edit`}>
+          <Button variant="secondary" size="sm">
+            Edit
+          </Button>
+        </Link>
+      </div>
     ),
   },
 ];
 
-const recentAllowanceLogColumns = [
-  {
-    key: "employee",
-    header: "Employee",
-    render: (item: RecentAllowanceLog) => <span className="font-medium text-textPrimary">{item.employee}</span>,
-  },
-  {
-    key: "allowance",
-    header: "Allowance",
-    render: (item: RecentAllowanceLog) => <span className="text-textSecondary text-sm">{item.allowance}</span>,
-  },
-  {
-    key: "amount",
-    header: "Amount",
-    render: (item: RecentAllowanceLog) => <span className="font-medium text-textPrimary">{item.amount}</span>,
-  },
-  {
-    key: "date",
-    header: "Date",
-    render: (item: RecentAllowanceLog) => <span className="text-textSubtle text-sm">{item.date}</span>,
-  },
-];
-
-export default async function AllowanceManagementPage() {
-  const supabase = createServerComponentClient<Database>({ cookies });
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect('/signin');
-  }
-
-  const { data: profile } = await supabase
-    .from('user_profiles')
-    .select('*, university:universities(*)')
-    .eq('id', session.user.id)
-    .single();
-
-  if (!profile || !['system_admin', 'university_admin', 'hr_staff'].includes(profile.role)) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600">You don't have permission to access this page.</p>
-        </div>
-      </div>
-    );
-  }
+export default async function AllowanceConfigsPage() {
+  const allowanceConfigs = await getAllowanceConfigs();
 
   return (
     <div className="space-y-8">
-      {/* Allowance Overview Statistics */}
-      <DashboardCard>
-        <h2 className="text-xl font-semibold mb-4">Allowance Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-sidebarItemHoverBg p-4 rounded-md flex items-center justify-between">
-            <div>
-              <p className="text-sm text-textSecondary">Total Allowance Types</p>
-              <p className="text-2xl font-bold">8+</p>
-            </div>
-            <HandCoins className="h-8 w-8 text-textAccent" />
-          </div>
-          <div className="bg-sidebarItemHoverBg p-4 rounded-md flex items-center justify-between">
-            <div>
-              <p className="text-sm text-textSecondary">Monthly Allowance Amount</p>
-              <p className="text-2xl font-bold">$80K</p>
-            </div>
-            <DollarSign className="h-8 w-8 text-textAccent" />
-          </div>
-          <div className="bg-sidebarItemHoverBg p-4 rounded-md flex items-center justify-between">
-            <div>
-              <p className="text-sm text-textSecondary">Pending Approvals</p>
-              <p className="text-2xl font-bold">3</p>
-            </div>
-            <Clock className="h-8 w-8 text-textAccent" />
-          </div>
-        </div>
-      </DashboardCard>
-
-      {/* Employee Allowances */}
       <DashboardCard>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Employee Allowances</h2>
+          <h1 className="text-2xl font-bold text-textPrimary">Allowance Configurations</h1>
           <div className="flex items-center space-x-2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle" />
@@ -224,39 +132,16 @@ export default async function AllowanceManagementPage() {
                 className="w-48 py-2 pl-10 pr-3 rounded-md"
               />
             </div>
-            <Button variant="secondary" className="flex items-center space-x-2 text-sm">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </Button>
+            <Link href="/admin/allowances/new">
+              <Button className="flex items-center space-x-2 text-sm">
+                <Plus className="h-4 w-4" />
+                <span>Add Allowance</span>
+              </Button>
+            </Link>
           </div>
         </div>
-        <DashboardTable data={employeeAllowances} columns={employeeAllowanceColumns} />
-      </DashboardCard>
-
-      {/* Recent Allowance Logs */}
-      <DashboardCard>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Recent Allowance Logs</h2>
-          <div className="flex items-center space-x-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-textSubtle" />
-              <Input
-                type="text"
-                placeholder="Search logs..."
-                className="w-48 py-2 pl-10 pr-3 rounded-md"
-              />
-            </div>
-            <Button variant="secondary" className="flex items-center space-x-2 text-sm">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </Button>
-          </div>
-        </div>
-        <DashboardTable data={recentAllowanceLogs} columns={recentAllowanceLogColumns} />
+        <DashboardTable data={allowanceConfigs} columns={allowanceConfigColumns} />
       </DashboardCard>
     </div>
   );
 }
-
-
-
