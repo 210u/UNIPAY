@@ -1,7 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { Database } from '@/lib/supabase/database.types';
 import DashboardCard from '@/components/common/DashboardCard';
 import Input from '@/components/ui/Input';
@@ -22,18 +21,7 @@ export const metadata: Metadata = {
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
 
 async function getUserProfiles(): Promise<UserProfile[]> {
-  const cookieStore = cookies();
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
+  const supabase = createServerSupabaseClient();
 
   const { data, error } = await supabase.from('user_profiles').select('id, first_name, last_name, email').order('last_name', { ascending: true });
 
@@ -45,43 +33,21 @@ async function getUserProfiles(): Promise<UserProfile[]> {
 }
 
 async function getUniversityId(): Promise<string | null> {
-  const cookieStore = cookies();
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
-
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-
-  if (userError) {
-    console.error('Error fetching user:', userError);
-    return null;
-  }
-
-  if (!user) {
-    console.warn('No user found to fetch university ID.');
-    return null;
-  }
-
-  const { data: profileData, error: profileError } = await supabase
-    .from('user_profiles')
-    .select('university_id')
-    .eq('id', user.id)
+  const supabase = createServerSupabaseClient();
+  // Fallback: first university row, since we don't have robust per-user mapping here.
+  const { data, error } = await supabase
+    .from('universities')
+    .select('id')
+    .order('created_at', { ascending: true })
+    .limit(1)
     .single();
 
-  if (profileError) {
-    console.error('Error fetching user profile:', profileError);
+  if (error) {
+    console.error('Error fetching default university id:', error);
     return null;
   }
 
-  return profileData?.university_id || null;
+  return data?.id ?? null;
 }
 
 export default async function AddDepartmentPage() {

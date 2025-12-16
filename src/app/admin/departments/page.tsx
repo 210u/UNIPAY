@@ -1,7 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { Database } from '@/lib/supabase/database.types';
 import DashboardCard from '@/components/common/DashboardCard';
 import DashboardTable from '@/components/common/DashboardTable';
@@ -22,18 +21,7 @@ type Department = Database['public']['Tables']['departments']['Row'] & {
 };
 
 async function getDepartments(): Promise<Department[]> {
-  const cookieStore = cookies();
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
+  const supabase = createServerSupabaseClient();
 
   const { data, error } = await supabase
     .from('departments')

@@ -33,7 +33,7 @@
   
   --radius: 0.5rem; /* Border radius */
   --sidebar-width-open: 16rem; /* 256px */
-  --sidebar-width-closed: 5rem; /* 80px */
+  --sidebar-width-closed: 4rem; /* 64px */
 
   /* Custom semantic colors for clarity */
   --textPrimary: hsl(var(--foreground));

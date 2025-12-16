@@ -37,14 +37,14 @@ export default async function RootLayout({
   }
 
   return (
-    <>
+    <div className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen bg-gray-100 dark:bg-gray-900`}>
       {user && <Sidebar />}
-      <div className="flex-1 flex flex-col transition-all duration-300 group-[.sidebar-open]:ml-[var(--sidebar-width-open)] group-[.sidebar-closed]:ml-[var(--sidebar-width-closed)] overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-x-hidden">
         {user && <DashboardHeader userRole={userRole} />}
         <main className="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-800">
           {children}
         </main>
       </div>
-    </>
+    </div>
   );
 }

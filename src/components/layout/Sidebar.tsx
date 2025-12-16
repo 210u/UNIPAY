@@ -88,16 +88,6 @@ const Sidebar: React.FC<SidebarProps> = ({}) => { // Removed userRole from props
 
     fetchUserRole();
 
-    // Existing effect for sidebar open/close classes
-    if (typeof document !== 'undefined') {
-      if (isSidebarOpen) {
-        document.body.classList.add('sidebar-open');
-        document.body.classList.remove('sidebar-closed');
-      } else {
-        document.body.classList.add('sidebar-closed');
-        document.body.classList.remove('sidebar-open');
-      }
-    }
   }, [isSidebarOpen]);
 
   const toggleSidebar = () => {
@@ -119,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => { // Removed userRole from props
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-gray-800 text-gray-100 transition-all duration-300 ${
+      className={`flex h-screen flex-col flex-shrink-0 bg-gray-800 text-gray-100 transition-all duration-300 ${
         isSidebarOpen ? 'w-[var(--sidebar-width-open)]' : 'w-[var(--sidebar-width-closed)]'
       }`}
     >

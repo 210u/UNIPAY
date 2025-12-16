@@ -6,142 +6,255 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
-  }
+export interface Database {
   public: {
     Tables: {
-      audit_logs: {
+      employees: {
         Row: {
-          action: string
-          changed_at: string
-          changed_by: string | null
+          created_at: string
+          department_id: string | null
+          employee_number: string
+          employee_type: string // USER-DEFINED
+          employment_status: string // USER-DEFINED
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          emergency_contact_relationship: string | null
+          hire_date: string
           id: string
-          ip_address: string | null
-          new_data: Json | null
-          old_data: Json | null
-          record_id: string
-          table_name: string
-          user_agent: string | null
+          notes: string | null
+          student_id: string | null
+          tax_id: string | null
+          tax_withholding_rate: number | null
+          termination_date: string | null
+          university_id: string
+          updated_at: string
+          user_id: string
         }
         Insert: {
-          action: string
-          changed_at?: string
-          changed_by?: string | null
+          created_at?: string
+          department_id?: string | null
+          employee_number: string
+          employee_type: string // USER-DEFINED
+          employment_status?: string // USER-DEFINED
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relationship?: string | null
+          hire_date: string
           id?: string
-          ip_address?: string | null
-          new_data?: Json | null
-          old_data?: Json | null
-          record_id: string
-          table_name: string
-          user_agent?: string | null
+          notes?: string | null
+          student_id?: string | null
+          tax_id?: string | null
+          tax_withholding_rate?: number | null
+          termination_date?: string | null
+          university_id: string
+          updated_at?: string
+          user_id: string
         }
         Update: {
-          action?: string
-          changed_at?: string
-          changed_by?: string | null
+          created_at?: string
+          department_id?: string | null
+          employee_number?: string
+          employee_type?: string // USER-DEFINED
+          employment_status?: string // USER-DEFINED
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relationship?: string | null
+          hire_date?: string
           id?: string
-          ip_address?: string | null
-          new_data?: Json | null
-          old_data?: Json | null
-          record_id?: string
-          table_name?: string
-          user_agent?: string | null
+          notes?: string | null
+          student_id?: string | null
+          tax_id?: string | null
+          tax_withholding_rate?: number | null
+          termination_date?: string | null
+          university_id?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "audit_logs_changed_by_fkey"
-            columns: ["changed_by"]
+            foreignKeyName: "employees_department_id_fkey"
+            columns: ["department_id"]
             isOneToOne: false
-            referencedRelation: "user_profiles"
+            referencedRelation: "departments"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "employees_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employees_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       user_profiles: {
         Row: {
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string
+          first_name: string
           id: string
-          email: string | null
-          first_name: string | null
-          last_name: string | null
+          is_active: boolean
+          last_name: string
+          middle_name: string | null
           phone_number: string | null
-          role: string | null
+          postal_code: string | null
+          profile_image_url: string | null
+          role: string // USER-DEFINED
+          state_province: string | null
           university_id: string | null
-          created_at: string | null
-          updated_at: string | null
+          updated_at: string
+          username: string | null
         }
         Insert: {
-          id?: string
-          email?: string | null
-          first_name?: string | null
-          last_name?: string | null
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email: string
+          first_name: string
+          id: string
+          is_active?: boolean
+          last_name: string
+          middle_name?: string | null
           phone_number?: string | null
-          role?: string | null
+          postal_code?: string | null
+          profile_image_url?: string | null
+          role?: string // USER-DEFINED
+          state_province?: string | null
           university_id?: string | null
-          created_at?: string | null
-          updated_at?: string | null
+          updated_at?: string
+          username?: string | null
         }
         Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string
+          first_name?: string
           id?: string
-          email?: string | null
-          first_name?: string | null
-          last_name?: string | null
+          is_active?: boolean
+          last_name?: string
+          middle_name?: string | null
           phone_number?: string | null
-          role?: string | null
+          postal_code?: string | null
+          profile_image_url?: string | null
+          role?: string // USER-DEFINED
+          state_province?: string | null
           university_id?: string | null
-          created_at?: string | null
-          updated_at?: string | null
+          updated_at?: string
+          username?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "user_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_profiles_university_id_fkey"
             columns: ["university_id"]
             isOneToOne: false
             referencedRelation: "universities"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
-      // ... (truncated for brevity - full types available)
+      departments: {
+        Row: {
+          budget_code: string | null
+          code: string
+          cost_center_code: string | null
+          created_at: string
+          description: string | null
+          head_user_id: string | null
+          id: string
+          is_active: boolean
+          name: string
+          university_id: string
+          updated_at: string
+        }
+        Insert: {
+          budget_code?: string | null
+          code: string
+          cost_center_code?: string | null
+          created_at?: string
+          description?: string | null
+          head_user_id?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          university_id: string
+          updated_at?: string
+        }
+        Update: {
+          budget_code?: string | null
+          code?: string
+          cost_center_code?: string | null
+          created_at?: string
+          description?: string | null
+          head_user_id?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          university_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "departments_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_departments_head_user_id"
+            columns: ["head_user_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
-      vw_active_assignments: {
-        Row: {
-          // Assignment view fields
-        }
+      [_ in string]: {
+        Row: Record<string, unknown>
+        Insert: Record<string, unknown>
+        Update: Record<string, unknown>
+        Relationships: []
       }
-      // ... other views
     }
     Functions: {
-      calculate_gross_pay: {
-        Args: {
-          assignment_id_param: string
-          overtime_hours_param?: number
-          regular_hours_param: number
-        }
-        Returns: number
+      [_ in string]: {
+        Args: Record<string, unknown>
+        Returns: unknown
       }
-      // ... other functions
     }
     Enums: {
-      user_role:
-        | "system_admin"
-        | "university_admin"
-        | "hr_staff"
-        | "payroll_officer"
-        | "department_head"
-        | "employee"
-      // ... other enums
+      [_ in string]: string
+    }
+    CompositeTypes: {
+      [_ in string]: Record<string, unknown>
     }
   }
 }
-
-// Export helper types
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
-
-
-
