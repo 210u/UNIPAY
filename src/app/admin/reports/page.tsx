@@ -2,15 +2,11 @@ import React from 'react';
 import { Metadata } from 'next';
 import DashboardCard from '@/components/common/DashboardCard';
 import DashboardTable from '@/components/common/DashboardTable';
-import Badge from '@/components/ui/Badge';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { Search, Filter, FileText, Download, Calendar, Settings, Clock, BarChart2 } from 'lucide-react';
-
-export const metadata: Metadata = {
-  title: 'Reports | University Payroll System',
-  description: 'Generate and manage payroll reports',
-};
+import { BarChart2, Filter, Search } from 'lucide-react';
+import { availableReportsColumns } from './components/availableReportsColumns';
+import { scheduledReportsColumns } from './components/scheduledReportsColumns';
 
 interface Report {
   id: number;
@@ -80,79 +76,12 @@ const scheduledReports: ScheduledReport[] = [
   },
 ];
 
-const availableReportsColumns = [
-  {
-    key: "name",
-    header: "Report Name",
-    render: (item: Report) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: "type",
-    header: "Type",
-    render: (item: Report) => <Badge variant="review">{item.type}</Badge>,
-  },
-  {
-    key: "dateGenerated",
-    header: "Date Generated",
-    render: (item: Report) => <span className="text-textSecondary text-sm">{item.dateGenerated}</span>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: Report) => (
-      <Badge variant={item.status === "Completed" ? "low" : "medium"}>
-        {item.status}
-      </Badge>
-    ),
-  },
-  {
-    key: "actions",
-    header: "Actions",
-    render: (item: Report) => (
-      <Button variant="secondary" size="sm" className="flex items-center space-x-2 text-xs">
-        {item.actions === "Download" ? <Download className="h-3 w-3" /> : <FileText className="h-3 w-3" />}
-        <span>{item.actions}</span>
-      </Button>
-    ),
-  },
-];
 
-const scheduledReportsColumns = [
-  {
-    key: "name",
-    header: "Report Name",
-    render: (item: ScheduledReport) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: "frequency",
-    header: "Frequency",
-    render: (item: ScheduledReport) => <span className="text-textSecondary text-sm">{item.frequency}</span>,
-  },
-  {
-    key: "nextRun",
-    header: "Next Run",
-    render: (item: ScheduledReport) => <span className="text-textSecondary text-sm">{item.nextRun}</span>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: ScheduledReport) => (
-      <Badge variant={item.status === "Active" ? "low" : "medium"}>
-        {item.status}
-      </Badge>
-    ),
-  },
-  {
-    key: "actions",
-    header: "Actions",
-    render: () => (
-      <Button variant="secondary" size="sm" className="flex items-center space-x-2 text-xs">
-        <Settings className="h-3 w-3" />
-        <span>Manage</span>
-      </Button>
-    ),
-  },
-];
+export const metadata: Metadata = {
+  title: 'Reports | University Payroll System',
+  description: 'Generate and manage payroll reports',
+};
+
 
 export default function ReportsPage() {
     return (

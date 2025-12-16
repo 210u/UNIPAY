@@ -5,107 +5,15 @@ import { Metadata } from 'next';
 import { Database } from '@/lib/supabase/database.types';
 import DashboardCard from '@/components/common/DashboardCard';
 import DashboardTable from '@/components/common/DashboardTable';
-import Badge from '@/components/ui/Badge';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
 import { Search, Filter, UserPlus, Trash2, Edit, UserRoundCheck, Clock } from 'lucide-react';
+import { userColumns } from './components/userColumns';
 
 export const metadata: Metadata = {
   title: 'User Management | University Payroll System',
   description: 'Manage users and their roles',
 };
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  lastLogin: string;
-}
 
-const users: User[] = [
-  {
-    id: 1,
-    name: "Alice Brown",
-    email: "alice.b@university.edu",
-    role: "University Admin",
-    status: "Active",
-    lastLogin: "2024-11-12",
-  },
-  {
-    id: 2,
-    name: "Bob Johnson",
-    email: "bob.j@university.edu",
-    role: "HR Staff",
-    status: "Active",
-    lastLogin: "2024-11-11",
-  },
-  {
-    id: 3,
-    name: "Charlie Green",
-    email: "charlie.g@university.edu",
-    role: "Payroll Officer",
-    status: "Inactive",
-    lastLogin: "2024-10-20",
-  },
-  {
-    id: 4,
-    name: "David Lee",
-    email: "david.l@university.edu",
-    role: "Department Head",
-    status: "Active",
-    lastLogin: "2024-11-13",
-  },
-];
-
-const userColumns = [
-  {
-    key: "name",
-    header: "Name",
-    render: (item: User) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: "email",
-    header: "Email",
-    render: (item: User) => <span className="text-textSecondary text-sm">{item.email}</span>,
-  },
-  {
-    key: "role",
-    header: "Role",
-    render: (item: User) => <Badge variant="review">{item.role}</Badge>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: User) => (
-      <Badge variant={item.status === "Active" ? "low" : "medium"}>
-        {item.status}
-      </Badge>
-    ),
-  },
-  {
-    key: "lastLogin",
-    header: "Last Login",
-    render: (item: User) => <span className="text-textSubtle text-sm">{item.lastLogin}</span>,
-  },
-  {
-    key: "actions",
-    header: "Actions",
-    render: () => (
-      <div className="flex space-x-2">
-        <Button variant="secondary" size="sm" className="flex items-center space-x-1 text-xs">
-          <Edit className="h-3 w-3" />
-          <span>Edit</span>
-        </Button>
-        <Button variant="secondary" size="sm" className="flex items-center space-x-1 text-xs text-red-500 hover:bg-red-100 dark:hover:bg-red-900">
-          <Trash2 className="h-3 w-3" />
-          <span>Delete</span>
-        </Button>
-      </div>
-    ),
-  },
-];
 
 export default async function UserManagementPage() {
   const supabase = createServerComponentClient<Database>({ cookies });

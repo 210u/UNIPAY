@@ -2,15 +2,11 @@ import React from 'react';
 import { Metadata } from 'next';
 import DashboardCard from '@/components/common/DashboardCard';
 import DashboardTable from '@/components/common/DashboardTable';
-import Badge from '@/components/ui/Badge';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { Search, Filter, DollarSign, CalendarDays, BarChart2, Clock } from 'lucide-react';
-
-export const metadata: Metadata = {
-  title: 'Payroll | University Payroll System',
-  description: 'Manage payroll processing and view payroll history',
-};
+import { CalendarDays, Clock, DollarSign, Filter, Search } from 'lucide-react';
+import { payrollCycleColumns } from './components/payrollCycleColumns';
+import { recentPayrollRunColumns } from './components/recentPayrollRunColumns';
 
 interface PayrollCycle {
   id: number;
@@ -81,70 +77,6 @@ const recentPayrollRuns: RecentPayrollRun[] = [
     employeesPaid: 4900,
     totalAmount: "$1,100,000.00",
     status: "Paid",
-  },
-];
-
-const payrollCycleColumns = [
-  {
-    key: "name",
-    header: "Payroll Cycle",
-    render: (item: PayrollCycle) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: "startDate",
-    header: "Start Date",
-    render: (item: PayrollCycle) => <span className="text-textSecondary text-sm">{item.startDate}</span>,
-  },
-  {
-    key: "endDate",
-    header: "End Date",
-    render: (item: PayrollCycle) => <span className="text-textSecondary text-sm">{item.endDate}</span>,
-  },
-  {
-    key: "totalAmount",
-    header: "Total Amount",
-    render: (item: PayrollCycle) => <span className="font-medium text-textPrimary">{item.totalAmount}</span>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: PayrollCycle) => (
-      <Badge variant={item.status === "Completed" ? "low" : "medium"}>
-        {item.status}
-      </Badge>
-    ),
-  },
-];
-
-const recentPayrollRunColumns = [
-  {
-    key: "cycle",
-    header: "Payroll Cycle",
-    render: (item: RecentPayrollRun) => <span className="font-medium text-textPrimary">{item.cycle}</span>,
-  },
-  {
-    key: "date",
-    header: "Date",
-    render: (item: RecentPayrollRun) => <span className="text-textSecondary text-sm">{item.date}</span>,
-  },
-  {
-    key: "employeesPaid",
-    header: "Employees Paid",
-    render: (item: RecentPayrollRun) => <span className="text-textPrimary">{item.employeesPaid}</span>,
-  },
-  {
-    key: "totalAmount",
-    header: "Total Amount",
-    render: (item: RecentPayrollRun) => <span className="font-medium text-textPrimary">{item.totalAmount}</span>,
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (item: RecentPayrollRun) => (
-      <Badge variant={item.status === "Paid" ? "low" : "medium"}>
-        {item.status}
-      </Badge>
-    ),
   },
 ];
 

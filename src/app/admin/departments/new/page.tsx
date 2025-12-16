@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { Database } from '@/lib/supabase/database.types';
+import { DEFAULT_UNIVERSITY_ID } from '@/lib/university';
 import DashboardCard from '@/components/common/DashboardCard';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
@@ -33,21 +34,8 @@ async function getUserProfiles(): Promise<UserProfile[]> {
 }
 
 async function getUniversityId(): Promise<string | null> {
-  const supabase = createServerSupabaseClient();
-  // Fallback: first university row, since we don't have robust per-user mapping here.
-  const { data, error } = await supabase
-    .from('universities')
-    .select('id')
-    .order('created_at', { ascending: true })
-    .limit(1)
-    .single();
-
-  if (error) {
-    console.error('Error fetching default university id:', error);
-    return null;
-  }
-
-  return data?.id ?? null;
+  // Hard-coded for now, as requested.
+  return DEFAULT_UNIVERSITY_ID;
 }
 
 export default async function AddDepartmentPage() {

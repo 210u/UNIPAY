@@ -1,29 +1,12 @@
  'use server';
 
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { Database } from '@/lib/supabase/database.types';
+import { DEFAULT_UNIVERSITY_ID } from '@/lib/university';
 import { redirect } from 'next/navigation';
 
 export async function addEmployee(formData: FormData) {
-  const cookieStore = cookies();
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: any) {
-          cookieStore.set({ name, value, ...options });
-        },
-        remove(name: string, options: any) {
-          cookieStore.set({ name, value: '', ...options });
-        },
-      },
-    }
-  );
+  const supabase = createServerSupabaseClient();
 
   const firstName = formData.get('firstName') as string;
   const lastName = formData.get('lastName') as string;
@@ -85,7 +68,7 @@ export async function addEmployee(formData: FormData) {
     .from('employees')
     .insert({
       user_id: userId,
-      university_id: 'YOUR_UNIVERSITY_ID', // TODO: Replace with actual university ID
+      university_id: DEFAULT_UNIVERSITY_ID,
       department_id: departmentId,
       employee_number: employeeNumber,
       hire_date: hireDate,

@@ -8,9 +8,7 @@ import DashboardTable from '@/components/common/DashboardTable';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Search, Filter } from 'lucide-react';
-import Link from 'next/link';
-import Badge from '@/components/ui/Badge';
-
+import { timesheetColumns } from './components/timesheetColumns';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -58,69 +56,6 @@ async function getTimesheets(): Promise<Timesheet[]> {
   return data;
 }
 
-const timesheetColumns = [
-  {
-    key: 'timesheet_number',
-    header: 'Timesheet No.',
-    render: (item: Timesheet) => <span className="font-medium text-textPrimary">{item.timesheet_number}</span>,
-  },
-  {
-    key: 'employee_name',
-    header: 'Employee Name',
-    render: (item: Timesheet) => (
-      <span className="text-textSecondary text-sm">
-        {item.employees?.user_profiles?.first_name} {item.employees?.user_profiles?.last_name}
-      </span>
-    ),
-  },
-  {
-    key: 'period_start_date',
-    header: 'Start Date',
-    render: (item: Timesheet) => <span className="text-textSecondary text-sm">{item.period_start_date}</span>,
-  },
-  {
-    key: 'period_end_date',
-    header: 'End Date',
-    render: (item: Timesheet) => <span className="text-textSecondary text-sm">{item.period_end_date}</span>,
-  },
-  {
-    key: 'total_hours',
-    header: 'Total Hours',
-    render: (item: Timesheet) => <span className="text-textSecondary text-sm">{item.total_hours?.toFixed(2) || '0.00'}</span>,
-  },
-  {
-    key: 'status',
-    header: 'Status',
-    render: (item: Timesheet) => <Badge variant={item.status === 'approved' ? 'success' : item.status === 'rejected' ? 'danger' : 'warning'}>{item.status}</Badge>,
-  },
-  {
-    key: 'submission_date',
-    header: 'Submission Date',
-    render: (item: Timesheet) => <span className="text-textSubtle text-sm">{item.submission_date ? new Date(item.submission_date).toLocaleDateString() : 'N/A'}</span>,
-  },
-  {
-    key: 'approved_by',
-    header: 'Approved By',
-    render: (item: Timesheet) => (
-      <span className="text-textSubtle text-sm">
-        {item.approved_by_user ? `${item.approved_by_user.first_name} ${item.approved_by_user.last_name}` : 'N/A'}
-      </span>
-    ),
-  },
-  {
-    key: 'actions',
-    header: 'Actions',
-    render: (item: Timesheet) => (
-      <div className="flex space-x-2">
-        <Link href={`/admin/timesheets/${item.id}`}>
-          <Button variant="secondary" size="sm">
-            View & Approve
-          </Button>
-        </Link>
-      </div>
-    ),
-  },
-];
 
 export default async function TimesheetManagementPage() {
   const timesheets = await getTimesheets();

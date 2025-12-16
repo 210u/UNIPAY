@@ -7,6 +7,7 @@ import DashboardTable from '@/components/common/DashboardTable';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Search, Plus } from 'lucide-react';
+import { departmentColumns } from './components/departmentColumns';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -36,45 +37,6 @@ async function getDepartments(): Promise<Department[]> {
   return data;
 }
 
-const departmentColumns = [
-  {
-    key: 'name',
-    header: 'Department Name',
-    render: (item: Department) => <span className="font-medium text-textPrimary">{item.name}</span>,
-  },
-  {
-    key: 'code',
-    header: 'Code',
-    render: (item: Department) => <span className="text-textSecondary text-sm">{item.code}</span>,
-  },
-  {
-    key: 'head',
-    header: 'Department Head',
-    render: (item: Department) => (
-      <span className="text-textSecondary text-sm">
-        {item.head_user_profiles ? `${item.head_user_profiles.first_name} ${item.head_user_profiles.last_name}` : 'N/A'}
-      </span>
-    ),
-  },
-  {
-    key: 'budget_code',
-    header: 'Budget Code',
-    render: (item: Department) => <span className="text-textSubtle text-sm">{item.budget_code || 'N/A'}</span>,
-  },
-  {
-    key: 'actions',
-    header: 'Actions',
-    render: (item: Department) => (
-      <div className="flex space-x-2">
-        <Link href={`/admin/departments/${item.id}/edit`}>
-          <Button variant="secondary" size="sm">
-            Edit
-          </Button>
-        </Link>
-      </div>
-    ),
-  },
-];
 
 export default async function DepartmentsPage() {
   const departments = await getDepartments();
